@@ -1,0 +1,205 @@
+[
+  {
+    "id": "respiracao-diafragmatica",
+    "nome": "Respiração diafragmática",
+    "categoria": "respiracao",
+    "momento": "inicio",
+    "mobilidades": ["sentado", "apoio", "independente"],
+    "serie": "3 respirações lentas",
+    "observacao": "Inspire pelo nariz e solte o ar devagar pela boca. Bom para começar a sessão.",
+    "cuidados": {}
+  },
+  {
+    "id": "relaxamento-final",
+    "nome": "Relaxamento final",
+    "categoria": "respiracao",
+    "momento": "fim",
+    "mobilidades": ["sentado", "apoio", "independente"],
+    "serie": "2 minutos",
+    "observacao": "Sente-se confortavelmente, feche os olhos e respire devagar antes de encerrar.",
+    "cuidados": {}
+  },
+  {
+    "id": "sentar-e-levantar",
+    "nome": "Sentar e levantar da cadeira",
+    "categoria": "forca",
+    "momento": null,
+    "mobilidades": ["apoio", "independente"],
+    "serie": "2 séries de 8 repetições",
+    "observacao": "Use os braços da cadeira se precisar de apoio.",
+    "cuidados": { "articular": "Faça devagar, sem forçar o joelho." }
+  },
+  {
+    "id": "elevacao-perna-sentado",
+    "nome": "Elevação de perna sentado(a)",
+    "categoria": "forca",
+    "momento": null,
+    "mobilidades": ["sentado", "apoio", "independente"],
+    "serie": "2 séries de 10 repetições por perna",
+    "observacao": "Estenda a perna devagar e volte com controle.",
+    "cuidados": {}
+  },
+  {
+    "id": "rosca-braco-garrafa",
+    "nome": "Rosca de braço com garrafa de água",
+    "categoria": "forca",
+    "momento": null,
+    "mobilidades": ["sentado", "apoio", "independente"],
+    "serie": "2 séries de 10 repetições",
+    "observacao": "Use uma garrafa leve (500 ml) em cada mão.",
+    "cuidados": { "hipertensao": "Não prenda a respiração durante o movimento." }
+  },
+  {
+    "id": "elevacao-lateral-bracos",
+    "nome": "Elevação lateral dos braços",
+    "categoria": "forca",
+    "momento": null,
+    "mobilidades": ["sentado", "apoio", "independente"],
+    "serie": "2 séries de 8 repetições",
+    "observacao": "Levante os braços até a altura do ombro, sem peso ou com peso leve.",
+    "cuidados": { "hipertensao": "Não prenda a respiração durante o movimento." }
+  },
+  {
+    "id": "extensao-joelho-sentado",
+    "nome": "Extensão de joelho sentado(a)",
+    "categoria": "forca",
+    "momento": null,
+    "mobilidades": ["sentado", "apoio", "independente"],
+    "serie": "2 séries de 10 repetições por perna",
+    "observacao": "Sentado na cadeira, estique a perna até ficar reta.",
+    "cuidados": {}
+  },
+  {
+    "id": "apoio-um-pe-cadeira",
+    "nome": "Apoio em um pé com a cadeira",
+    "categoria": "equilibrio",
+    "momento": null,
+    "mobilidades": ["apoio", "independente"],
+    "serie": "3 vezes de 10 segundos por perna",
+    "observacao": "Segure no encosto da cadeira e olhe para frente.",
+    "cuidados": { "articular": "Pare se sentir dor na articulação de apoio." }
+  },
+  {
+    "id": "marcha-estacionaria",
+    "nome": "Marcha estacionária",
+    "categoria": "equilibrio",
+    "momento": null,
+    "mobilidades": ["apoio", "independente"],
+    "serie": "1 minuto",
+    "observacao": "Levante os joelhos alternadamente, como se estivesse marchando no lugar.",
+    "cuidados": {}
+  },
+  {
+    "id": "caminhar-calcanhar-ponta",
+    "nome": "Caminhar calcanhar-ponta",
+    "categoria": "equilibrio",
+    "momento": null,
+    "mobilidades": ["independente"],
+    "serie": "2 idas de 6 passos",
+    "observacao": "Coloque um pé bem à frente do outro, como em uma linha reta. Faça perto de uma parede.",
+    "cuidados": {}
+  },
+  {
+    "id": "transferencia-peso-lateral",
+    "nome": "Transferência de peso lateral",
+    "categoria": "equilibrio",
+    "momento": null,
+    "mobilidades": ["sentado", "apoio", "independente"],
+    "serie": "2 séries de 8 repetições",
+    "observacao": "Sentado ou em pé com apoio, transfira o peso de um lado para o outro devagar.",
+    "cuidados": {}
+  },
+  {
+    "id": "fortalecimento-tornozelo",
+    "nome": "Fortalecimento de tornozelo sentado(a)",
+    "categoria": "equilibrio",
+    "momento": null,
+    "mobilidades": ["sentado", "apoio", "independente"],
+    "serie": "2 séries de 10 repetições",
+    "observacao": "Levante e abaixe a ponta dos pés mantendo os calcanhares no chão.",
+    "cuidados": {}
+  },
+  {
+    "id": "alongamento-pescoco",
+    "nome": "Alongamento de pescoço",
+    "categoria": "flexibilidade",
+    "momento": null,
+    "mobilidades": ["sentado", "apoio", "independente"],
+    "serie": "2 repetições de 15 segundos por lado",
+    "observacao": "Incline a cabeça devagar para o lado, sem forçar.",
+    "cuidados": {}
+  },
+  {
+    "id": "alongamento-ombros",
+    "nome": "Alongamento de ombros",
+    "categoria": "flexibilidade",
+    "momento": null,
+    "mobilidades": ["sentado", "apoio", "independente"],
+    "serie": "2 repetições de 15 segundos por lado",
+    "observacao": "Leve um braço à frente do corpo e segure com o outro braço.",
+    "cuidados": {}
+  },
+  {
+    "id": "alongamento-panturrilha",
+    "nome": "Alongamento de panturrilha",
+    "categoria": "flexibilidade",
+    "momento": null,
+    "mobilidades": ["apoio", "independente"],
+    "serie": "2 repetições de 20 segundos por perna",
+    "observacao": "Apoie as mãos na parede e leve uma perna para trás, mantendo o calcanhar no chão.",
+    "cuidados": {}
+  },
+  {
+    "id": "rotacao-tronco-sentado",
+    "nome": "Rotação de tronco sentado(a)",
+    "categoria": "flexibilidade",
+    "momento": null,
+    "mobilidades": ["sentado", "apoio", "independente"],
+    "serie": "2 repetições de 10 segundos por lado",
+    "observacao": "Gire o tronco devagar para cada lado, mantendo o quadril parado.",
+    "cuidados": {}
+  },
+  {
+    "id": "alongamento-maos-punhos",
+    "nome": "Alongamento de mãos e punhos",
+    "categoria": "flexibilidade",
+    "momento": null,
+    "mobilidades": ["sentado", "apoio", "independente"],
+    "serie": "2 repetições de 10 segundos",
+    "observacao": "Estenda o braço e puxe a ponta dos dedos suavemente para trás.",
+    "cuidados": {}
+  },
+  {
+    "id": "caminhada-leve",
+    "nome": "Caminhada leve",
+    "categoria": "aerobico",
+    "momento": null,
+    "mobilidades": ["apoio", "independente"],
+    "serie": "10 a 15 minutos, ritmo confortável",
+    "observacao": "Pode ser dentro de casa, no quintal ou na rua, em local seguro.",
+    "cuidados": {
+      "diabetes": "Leve algo com açúcar caso sinta tontura.",
+      "hipertensao": "Mantenha ritmo confortável, sem pressa."
+    }
+  },
+  {
+    "id": "marcha-sentado",
+    "nome": "Marcha sentado(a)",
+    "categoria": "aerobico",
+    "momento": null,
+    "mobilidades": ["sentado"],
+    "serie": "2 minutos",
+    "observacao": "Sentado, eleve os joelhos alternadamente em ritmo de marcha.",
+    "cuidados": {}
+  },
+  {
+    "id": "danca-leve",
+    "nome": "Dança leve ao som de uma música",
+    "categoria": "aerobico",
+    "momento": null,
+    "mobilidades": ["sentado", "apoio", "independente"],
+    "serie": "3 a 5 minutos",
+    "observacao": "Movimente braços e pernas no ritmo da música, no seu tempo.",
+    "cuidados": {}
+  }
+]

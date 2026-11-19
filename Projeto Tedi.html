@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEDI — Plano de Exercícios para a Terceira Idade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#8ECAE6;
+    --sky-deep:#4E9BC2;
+    --sky-pale:#EAF6FC;
+    --ink:#15191D;
+    --paper:#FCFBF7;
+    --coral:#F2665A;
+    --coral-deep:#D64E43;
+    --mint:#5FB8A6;
+    --line: rgba(21,25,29,0.14);
+    --radius: 18px;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:'Atkinson Hyperlegible', sans-serif;
+    background:var(--sky);
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:28px 16px 60px;
+    font-size:17px;
+    line-height:1.5;
+  }
+  h1,h2,h3,.brand-word,.btn,.tab,.opt{ font-family:'Baloo 2', sans-serif; }
+
+  /* ---- dotted frame homage to the TEDI slide template ---- */
+  .frame{
+    width:100%;
+    max-width:880px;
+    border:3px dashed rgba(21,25,29,0.55);
+    border-radius:26px;
+    padding:22px;
+    background:
+      radial-gradient(circle, rgba(21,25,29,0.55) 1.6px, transparent 1.6px) 0 0/22px 22px,
+      transparent;
+    background-position: top left, top left;
+  }
+  .inner{
+    background:var(--sky);
+    border-radius:18px;
+    padding:8px 6px 0;
+  }
+
+  header.topbar{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:6px 10px 22px;
+  }
+  .logo{
+    width:52px; height:52px; flex:none;
+  }
+  .brand{
+    display:flex; flex-direction:column; line-height:1.15;
+  }
+  .brand-word{ font-weight:800; font-size:22px; letter-spacing:0.5px; }
+  .brand-sub{ font-size:13px; font-weight:400; opacity:0.85; }
+
+  main{
+    background:var(--paper);
+    border-radius:22px;
+    padding:34px 30px 28px;
+    box-shadow:0 10px 0 rgba(21,25,29,0.06);
+    min-height:420px;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---- progress ---- */
+  .progress{
+    display:flex; gap:8px; justify-content:center; margin-bottom:26px;
+  }
+  .dot{ width:11px; height:11px; border-radius:50%; background:var(--line); transition:background .25s; }
+  .dot.done{ background:var(--mint); }
+  .dot.active{ background:var(--sky-deep); }
+
+  .step{ display:none; flex:1; flex-direction:column; }
+  .step.active{ display:flex; }
+
+  .q-title{ font-size:26px; font-weight:700; margin:0 0 6px; text-align:center; }
+  .q-hint{ text-align:center; opacity:0.75; margin:0 0 26px; font-size:15px; }
+
+  .name-input{
+    width:100%; max-width:420px; margin:0 auto 10px; display:block;
+    font-size:19px; padding:14px 16px; border-radius:14px;
+    border:2px solid var(--line); font-family:inherit; background:#fff;
+  }
+  .name-input:focus{ outline:3px solid var(--sky-deep); border-color:var(--sky-deep); }
+
+  .opts{
+    display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    max-width:640px; margin:0 auto; width:100%;
+  }
+  .opt{
+    font-size:17px; font-weight:500; text-align:left;
+    background:#fff; border:2px solid var(--line); border-radius:16px;
+    padding:16px 18px; cursor:pointer; color:var(--ink);
+    transition:border-color .15s, background .15s, transform .1s;
+    display:flex; align-items:center; gap:12px;
+  }
+  .opt:hover{ border-color:var(--sky-deep); }
+  .opt:active{ transform:scale(0.98); }
+  .opt.selected{ background:var(--sky-pale); border-color:var(--sky-deep); box-shadow:inset 0 0 0 2px var(--sky-deep); }
+  .opt .check{
+    width:22px; height:22px; border-radius:7px; border:2px solid var(--line);
+    flex:none; display:flex; align-items:center; justify-content:center; font-size:14px; background:#fff;
+  }
+  .opt.selected .check{ background:var(--mint); border-color:var(--mint); color:#fff; }
+
+  .nav{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top:auto; padding-top:26px;
+  }
+  .btn{
+    font-size:17px; font-weight:700; padding:13px 24px; border-radius:14px;
+    border:none; cursor:pointer; transition:filter .15s, transform .1s;
+  }
+  .btn:active{ transform:scale(0.97); }
+  .btn.primary{ background:var(--coral); color:#fff; }
+  .btn.primary:hover{ filter:brightness(1.06); }
+  .btn.primary:disabled{ background:#d8d3c9; cursor:not-allowed; }
+  .btn.ghost{ background:transparent; color:var(--ink); border:2px solid var(--line); }
+  .btn.ghost:hover{ border-color:var(--sky-deep); }
+
+  /* ---- results ---- */
+  #result{ display:none; flex-direction:column; }
+  .result-head{ text-align:center; margin-bottom:6px; }
+  .result-head h2{ font-size:25px; margin:0 0 4px; }
+  .result-head p{ margin:0; opacity:0.75; font-size:15px; }
+
+  .tabs{
+    display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:22px 0 18px;
+  }
+  .tab{
+    font-weight:700; font-size:15px; padding:9px 16px; border-radius:999px;
+    border:2px solid var(--line); background:#fff; cursor:pointer;
+  }
+  .tab.active{ background:var(--sky-deep); color:#fff; border-color:var(--sky-deep); }
+
+  table.plan{
+    width:100%; border-collapse:collapse; font-size:15.5px;
+  }
+  table.plan caption{ text-align:left; font-weight:700; font-size:16px; margin-bottom:8px; }
+  table.plan th, table.plan td{
+    border:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;
+  }
+  table.plan th{ background:var(--sky-pale); font-family:'Baloo 2',sans-serif; }
+  table.plan tr:nth-child(even) td{ background:#fbfaf6; }
+  .day-panel{ display:none; }
+  .day-panel.active{ display:block; }
+
+  .notes{
+    background:var(--sky-pale); border-radius:14px; padding:14px 16px; margin-top:20px; font-size:14.5px;
+  }
+  .notes strong{ display:block; margin-bottom:4px; }
+
+  .result-actions{
+    display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:24px;
+  }
+
+  footer{
+    text-align:center; padding:18px 10px 4px; font-size:13px; opacity:0.85;
+  }
+  footer a{ color:var(--ink); }
+
+  @media print{
+    body{ background:#fff; padding:0; }
+    .frame{ border:none; background:none; }
+    header.topbar, .result-actions, footer, .tabs{ display:none !important; }
+    main{ box-shadow:none; padding:0; }
+    .day-panel{ display:block !important; page-break-after:always; }
+    #quiz{ display:none !important; }
+  }
+  @media (max-width:480px){
+    .q-title{ font-size:22px; }
+    main{ padding:24px 16px 20px; }
+  }
+
+  /* ---- aviso de conexão com o servidor (feedback) ---- */
+  .api-status{
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    background:#FDECEA; border:2px solid var(--coral-deep); border-radius:14px;
+    padding:12px 16px; margin:0 0 22px; font-size:15px;
+  }
+  .api-status[hidden]{ display:none; }
+  .api-status .btn{ font-size:15px; padding:9px 16px; }
+  .notes p{ margin:0 0 6px; }
+  .notes p:last-child{ margin-bottom:0; }
+</style>
+</head>
+<body>
+
+<div class="frame">
+  <div class="inner">
+    <header class="topbar">
+      <svg class="logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="8" width="56" height="36" rx="4" fill="#15191D"/>
+        <rect x="9" y="13" width="46" height="26" fill="#8ECAE6"/>
+        <rect x="24" y="46" width="16" height="6" fill="#15191D"/>
+        <rect x="16" y="52" width="32" height="4" rx="2" fill="#15191D"/>
+        <path d="M34 22 L40 32 L36 32 L36 38 L30 38 L30 32 L28 32 Z" fill="#15191D"/>
+      </svg>
+      <div class="brand">
+        <span class="brand-word">Projeto TEDI</span>
+        <span class="brand-sub">Tecnologia e Educação Digital para a Terceira Idade</span>
+      </div>
+    </header>
+
+    <main>
+      <div class="api-status" id="api-status" role="alert" hidden>
+        <span id="api-status-msg"></span>
+        <button class="btn ghost" id="api-retry" type="button" onclick="verificarApi()">Tentar novamente</button>
+      </div>
+      <div id="quiz">
+        <div class="progress" id="progress"></div>
+
+        <div class="step active" data-step="0">
+          <h1 class="q-title">Vamos montar seu plano de exercícios</h1>
+          <p class="q-hint">Qual é o seu nome? (opcional, aparece na planilha)</p>
+          <input class="name-input" id="q-name" type="text" placeholder="Ex: Maria">
+          <div class="nav">
+            <span></span>
+            <button class="btn primary" onclick="next()">Avançar</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="1">
+          <h1 class="q-title">Qual é a sua faixa de idade?</h1>
+          <p class="q-hint">Isso ajuda a ajustar a intensidade dos exercícios.</p>
+          <div class="opts" data-group="idade">
+            <button class="opt" data-value="60-69">60 a 69 anos</button>
+            <button class="opt" data-value="70-79">70 a 79 anos</button>
+            <button class="opt" data-value="80+">80 anos ou mais</button>
+          </div>
+          <div class="nav">
+            <button class="btn ghost" onclick="prev()">Voltar</button>
+            <button class="btn primary" id="nav1" onclick="next()" disabled>Avançar</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="2">
+          <h1 class="q-title">Como é a sua mobilidade hoje?</h1>
+          <p class="q-hint">Escolha a opção que mais combina com o dia a dia.</p>
+          <div class="opts" data-group="mobilidade">
+            <button class="opt" data-value="sentado">Faço a maioria das atividades sentado(a)</button>
+            <button class="opt" data-value="apoio">Ando com apoio (bengala, andador ou acompanhante)</button>
+            <button class="opt" data-value="independente">Ando sem apoio e me sinto ativo(a)</button>
+          </div>
+          <div class="nav">
+            <button class="btn ghost" onclick="prev()">Voltar</button>
+            <button class="btn primary" id="nav2" onclick="next()" disabled>Avançar</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="3">
+          <h1 class="q-title">Você tem alguma dessas condições?</h1>
+          <p class="q-hint">Pode marcar mais de uma. Isso só ajusta as observações dos exercícios.</p>
+          <div class="opts" data-group="condicoes" data-multi="true">
+            <button class="opt" data-value="hipertensao">Pressão alta (hipertensão)</button>
+            <button class="opt" data-value="diabetes">Diabetes</button>
+            <button class="opt" data-value="articular">Dor nas articulações / osteoporose</button>
+            <button class="opt" data-value="nenhuma">Nenhuma dessas</button>
+          </div>
+          <div class="nav">
+            <button class="btn ghost" onclick="prev()">Voltar</button>
+            <button class="btn primary" id="nav3" onclick="next()" disabled>Avançar</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="4">
+          <h1 class="q-title">Qual é o seu principal objetivo?</h1>
+          <div class="opts" data-group="objetivo">
+            <button class="opt" data-value="equilibrio">Equilíbrio e prevenir quedas</button>
+            <button class="opt" data-value="forca">Ganhar força muscular</button>
+            <button class="opt" data-value="flexibilidade">Ganhar flexibilidade</button>
+            <button class="opt" data-value="geral">Condicionamento geral</button>
+          </div>
+          <div class="nav">
+            <button class="btn ghost" onclick="prev()">Voltar</button>
+            <button class="btn primary" id="nav4" onclick="next()" disabled>Avançar</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="5">
+          <h1 class="q-title">Quantos dias por semana?</h1>
+          <div class="opts" data-group="frequencia">
+            <button class="opt" data-value="2">2 dias por semana</button>
+            <button class="opt" data-value="3">3 dias por semana</button>
+            <button class="opt" data-value="5">5 dias por semana</button>
+          </div>
+          <div class="nav">
+            <button class="btn ghost" onclick="prev()">Voltar</button>
+            <button class="btn primary" id="nav5" onclick="next()" disabled>Avançar</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="6">
+          <h1 class="q-title">Quanto tempo por sessão?</h1>
+          <div class="opts" data-group="duracao">
+            <button class="opt" data-value="curta">15 a 20 minutos</button>
+            <button class="opt" data-value="media">20 a 30 minutos</button>
+            <button class="opt" data-value="longa">30 a 45 minutos</button>
+          </div>
+          <div class="nav">
+            <button class="btn ghost" onclick="prev()">Voltar</button>
+            <button class="btn primary" id="nav6" onclick="gerarPlano()" disabled>Gerar minha planilha</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="result">
+        <div class="result-head">
+          <h2 id="result-title">Seu plano de exercícios</h2>
+          <p id="result-sub"></p>
+        </div>
+        <div class="tabs" id="tabs"></div>
+        <div id="days"></div>
+        <div class="notes" id="notes"></div>
+        <div class="result-actions">
+          <button class="btn primary" onclick="baixarCSV()">Baixar planilha (CSV)</button>
+          <button class="btn ghost" onclick="window.print()">Imprimir</button>
+          <button class="btn ghost" onclick="reiniciar()">Refazer quiz</button>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      Um material do <strong>Projeto TEDI</strong> — Tecnologia e Educação Digital para a Terceira Idade · UTFPR Cornélio Procópio<br>
+      Instagram @projeto_tedi · Este conteúdo é educativo e não substitui avaliação de um profissional de saúde.
+    </footer>
+  </div>
+</div>
+
+<script>
+/* ---------------- configuração ---------------- */
+const API_URL = 'http://localhost:3000';
+
+/* ---------------- estado ---------------- */
+const state = { idade:null, mobilidade:null, condicoes:[], objetivo:null, frequencia:null, duracao:null, nome:'' };
+const TOTAL_STEPS = 7;
+let stepIndex = 0;
+
+// Plano devolvido pela API após o quiz: { idoso, plano }
+let resultado = null;
+let apiDisponivel = false;
+let enviando = false;
+
+const OBJETIVO_LABEL = {equilibrio:'Equilíbrio e prevenção de quedas', forca:'Força muscular', flexibilidade:'Flexibilidade', geral:'Condicionamento geral'};
+const DURACAO_LABEL = {curta:'15–20 min', media:'20–30 min', longa:'30–45 min'};
+const CONDICAO_LABEL = {hipertensao:'pressão alta', diabetes:'diabetes', articular:'dores articulares/osteoporose', nenhuma:'nenhuma condição informada'};
+
+/* ---------------- comunicação com a API ---------------- */
+class ApiError extends Error {
+  constructor(mensagem, status) {
+    super(mensagem);
+    this.status = status;
+  }
+}
+
+/** Faz a requisição. Falha de rede lança ApiError com status 0; HTTP de erro lança com o status recebido. */
+async function chamarApi(caminho, { method = 'GET', corpo } = {}) {
+  let resposta;
+  try {
+    resposta = await fetch(API_URL + caminho, {
+      method,
+      headers: corpo !== undefined ? { 'Content-Type': 'application/json' } : undefined,
+      body: corpo !== undefined ? JSON.stringify(corpo) : undefined,
+    });
+  } catch (_) {
+    throw new ApiError('Não foi possível conectar ao servidor.', 0);
+  }
+  if (!resposta.ok) {
+    let detalhe = '';
+    try {
+      const dados = await resposta.json();
+      detalhe = dados.erro || '';
+    } catch (_) { /* resposta sem JSON */ }
+    console.error('API respondeu com erro', resposta.status, detalhe);
+    throw new ApiError(detalhe || 'Erro na requisição', resposta.status);
+  }
+  return resposta;
+}
+
+function montarRespostas() {
+  return {
+    nome: state.nome,
+    faixaEtaria: state.idade,
+    mobilidade: state.mobilidade,
+    condicoes: state.condicoes,
+    objetivo: state.objetivo,
+    frequencia: Number(state.frequencia),
+    duracao: state.duracao,
+  };
+}
+
+/* ---------------- aviso de conexão / erros ---------------- */
+function mostrarStatus(mensagem, { tentarNovamente = false } = {}) {
+  document.getElementById('api-status-msg').textContent = mensagem;
+  document.getElementById('api-retry').hidden = !tentarNovamente;
+  document.getElementById('api-status').hidden = false;
+}
+
+function esconderStatus() {
+  document.getElementById('api-status').hidden = true;
+}
+
+/** Confere se o servidor responde. Libera ou bloqueia o botão final conforme o resultado. */
+async function verificarApi() {
+  const botaoRetry = document.getElementById('api-retry');
+  botaoRetry.disabled = true;
+  try {
+    const resposta = await fetch(API_URL + '/saude');
+    if (!resposta.ok) throw new Error('status ' + resposta.status);
+    apiDisponivel = true;
+    esconderStatus();
+  } catch (_) {
+    apiDisponivel = false;
+    mostrarStatus('Não conseguimos conectar ao servidor do plano. Confira se o backend está rodando (npm start) e tente novamente.', { tentarNovamente: true });
+  } finally {
+    botaoRetry.disabled = false;
+    atualizarBotaoFinal();
+  }
+}
+
+/* ---------------- navegação do quiz ---------------- */
+function renderProgress(){
+  const el = document.getElementById('progress');
+  el.innerHTML = '';
+  for(let i=0;i<TOTAL_STEPS;i++){
+    const d = document.createElement('div');
+    d.className = 'dot' + (i<stepIndex?' done':'') + (i===stepIndex?' active':'');
+    el.appendChild(d);
+  }
+}
+
+function showStep(i){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.querySelector('.step[data-step="'+i+'"]').classList.add('active');
+  renderProgress();
+}
+
+function next(){
+  if(stepIndex===0){ state.nome = document.getElementById('q-name').value.trim(); }
+  if(stepIndex < TOTAL_STEPS-1){ stepIndex++; showStep(stepIndex); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+function prev(){
+  if(stepIndex > 0){ stepIndex--; showStep(stepIndex); }
+}
+
+document.querySelectorAll('.opts').forEach(group=>{
+  const key = group.dataset.group;
+  const multi = group.dataset.multi === 'true';
+  group.querySelectorAll('.opt').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const val = btn.dataset.value;
+      if(multi){
+        if(val==='nenhuma'){
+          group.querySelectorAll('.opt').forEach(b=>b.classList.remove('selected'));
+          btn.classList.add('selected');
+          state[key] = ['nenhuma'];
+        } else {
+          group.querySelector('.opt[data-value="nenhuma"]').classList.remove('selected');
+          btn.classList.toggle('selected');
+          state[key] = Array.from(group.querySelectorAll('.opt.selected')).map(b=>b.dataset.value);
+        }
+      } else {
+        group.querySelectorAll('.opt').forEach(b=>b.classList.remove('selected'));
+        btn.classList.add('selected');
+        state[key] = val;
+      }
+      updateNavButton(group);
+    });
+  });
+});
+
+function updateNavButton(group){
+  const stepEl = group.closest('.step');
+  const idx = stepEl.dataset.step;
+  const btn = document.getElementById('nav'+idx);
+  if(!btn) return;
+  const key = group.dataset.group;
+  const val = state[key];
+  const filled = Array.isArray(val) ? val.length>0 : !!val;
+  if(idx === '6'){
+    atualizarBotaoFinal();
+  } else {
+    btn.disabled = !filled;
+  }
+}
+
+/** Botão final: só habilita com a API disponível, uma duração escolhida e sem envio em andamento. */
+function atualizarBotaoFinal(){
+  const btn = document.getElementById('nav6');
+  btn.disabled = !(apiDisponivel && !enviando && state.duracao);
+}
+
+/* ---------------- geração do plano (via API) ---------------- */
+async function gerarPlano(){
+  if(enviando || !apiDisponivel) return;
+  enviando = true;
+  esconderStatus();
+  const botao = document.getElementById('nav6');
+  const textoOriginal = botao.textContent;
+  botao.textContent = 'Gerando seu plano…';
+  atualizarBotaoFinal();
+
+  try{
+    const resposta = await chamarApi('/api/questionario/respostas', { method:'POST', corpo: montarRespostas() });
+    resultado = await resposta.json();
+    mostrarResultado();
+  } catch(err){
+    if(err.status === 0){
+      apiDisponivel = false;
+      mostrarStatus('Perdemos a conexão com o servidor. Verifique se ele está rodando e tente novamente.', { tentarNovamente: true });
+    } else {
+      mostrarStatus('Não foi possível gerar seu plano agora. Tente novamente em instantes.');
+    }
+  } finally {
+    enviando = false;
+    botao.textContent = textoOriginal;
+    atualizarBotaoFinal();
+  }
+}
+
+function celula(texto){
+  const td = document.createElement('td');
+  td.textContent = texto;
+  return td;
+}
+
+function paragrafo(texto){
+  const p = document.createElement('p');
+  p.textContent = texto;
+  return p;
+}
+
+function montarPainelDia(sessao, idx, ativo){
+  const panel = document.createElement('div');
+  panel.className = 'day-panel' + (ativo ? ' active' : '');
+  panel.id = 'day-' + idx;
+
+  const tabela = document.createElement('table');
+  tabela.className = 'plan';
+
+  const caption = document.createElement('caption');
+  caption.textContent = 'Dia ' + sessao.dia;
+  tabela.appendChild(caption);
+
+  const thead = document.createElement('thead');
+  const trHead = document.createElement('tr');
+  ['Exercício', 'Séries / repetições', 'Como fazer'].forEach(titulo=>{
+    const th = document.createElement('th');
+    th.textContent = titulo;
+    trHead.appendChild(th);
+  });
+  thead.appendChild(trHead);
+  tabela.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  sessao.exercicios.forEach(ex=>{
+    const tr = document.createElement('tr');
+    tr.appendChild(celula(ex.nome));
+    tr.appendChild(celula(ex.serie));
+    const comoFazer = celula(ex.observacao);
+    if(ex.cuidados && ex.cuidados.length){
+      comoFazer.append(' ');
+      const em = document.createElement('em');
+      em.textContent = ex.cuidados.join(' ');
+      comoFazer.appendChild(em);
+    }
+    tr.appendChild(comoFazer);
+    tbody.appendChild(tr);
+  });
+  tabela.appendChild(tbody);
+
+  panel.appendChild(tabela);
+  return panel;
+}
+
+function mostrarResultado(){
+  const { idoso, plano } = resultado;
+
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('result').style.display = 'flex';
+
+  const nomeTxt = state.nome ? ('de ' + state.nome) : 'personalizado';
+  document.getElementById('result-title').textContent = 'Plano de exercícios ' + nomeTxt;
+  document.getElementById('result-sub').textContent =
+    'Objetivo: ' + OBJETIVO_LABEL[plano.objetivo] + ' · ' + plano.frequencia + 'x por semana · ' +
+    DURACAO_LABEL[plano.duracao] + ' por sessão';
+
+  const tabs = document.getElementById('tabs');
+  const days = document.getElementById('days');
+  tabs.replaceChildren();
+  days.replaceChildren();
+
+  plano.sessoes.forEach((sessao, idx)=>{
+    const tab = document.createElement('button');
+    tab.type = 'button';
+    tab.className = 'tab' + (idx===0 ? ' active' : '');
+    tab.textContent = 'Dia ' + sessao.dia;
+    tab.onclick = ()=>{
+      tabs.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+      days.querySelectorAll('.day-panel').forEach(p=>p.classList.remove('active'));
+      document.getElementById('day-'+idx).classList.add('active');
+    };
+    tabs.appendChild(tab);
+    days.appendChild(montarPainelDia(sessao, idx, idx===0));
+  });
+
+  const notes = document.getElementById('notes');
+  notes.replaceChildren();
+  const titulo = document.createElement('strong');
+  titulo.textContent = 'Observações gerais';
+  notes.appendChild(titulo);
+  const condicoes = idoso.condicoes.map(c=>CONDICAO_LABEL[c]).join(', ');
+  notes.appendChild(paragrafo('Condições consideradas: ' + condicoes + '.'));
+  plano.avisos.forEach(aviso=> notes.appendChild(paragrafo(aviso)));
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function reiniciar(){
+  resultado = null;
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  stepIndex = 0;
+  showStep(0);
+  document.querySelectorAll('.opt.selected').forEach(b=>b.classList.remove('selected'));
+  Object.keys(state).forEach(k=>{ state[k] = Array.isArray(state[k]) ? [] : null; });
+  document.querySelectorAll('.btn.primary[id^="nav"]').forEach(b=>b.disabled=true);
+  document.getElementById('q-name').value='';
+}
+
+/* ---------------- planilha (CSV gerado pelo back-end) ---------------- */
+async function baixarCSV(){
+  if(!resultado) return;
+  try{
+    const resposta = await chamarApi('/api/planos/' + resultado.plano.id + '/exportar?formato=csv');
+    const blob = await resposta.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const nomeArq = (state.nome ? state.nome.replace(/\s+/g,'_') + '_' : '') + 'plano_exercicios_TEDI.csv';
+    a.href = url; a.download = nomeArq;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch(err){
+    console.error(err);
+    if(err.status === 0){
+      apiDisponivel = false;
+      mostrarStatus('Perdemos a conexão com o servidor. Verifique se ele está rodando e tente novamente.', { tentarNovamente: true });
+    } else {
+      mostrarStatus('Não foi possível baixar a planilha agora. Tente novamente em instantes.');
+    }
+  }
+}
+
+showStep(0);
+verificarApi();
+</script>
+</body>
+</html>
